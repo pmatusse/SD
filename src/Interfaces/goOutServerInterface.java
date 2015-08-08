@@ -18,7 +18,7 @@ public interface goOutServerInterface extends Remote {
 
     public Vector ListarEventosAdmin(String mail) throws RemoteException;
 
-    public boolean Detalhes_ListaEventos(String titulo) throws RemoteException; //se nao encontra evento retorna false
+    public Vector DetalhesEvento(String titulo) throws RemoteException; //se nao encontra evento retorna false
 
     public void removerEvento(String titulo) throws RemoteException; //se nao encontra evento retorna false
 
