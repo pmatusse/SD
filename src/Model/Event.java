@@ -56,7 +56,7 @@ public class Event implements Serializable{
         this.local = local;
     }
 
-    public String getNome() {
+    public String getTitulo() {
         return titulo;
     }
 
