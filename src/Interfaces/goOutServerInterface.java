@@ -4,6 +4,7 @@ package Interfaces;
 import Model.Event;
 import java.rmi.*;
 import java.util.ArrayList;
+import java.util.Vector;
 import sun.util.calendar.BaseCalendar.Date;
 
 public interface goOutServerInterface extends Remote {
@@ -15,7 +16,7 @@ public interface goOutServerInterface extends Remote {
 
     public boolean addEvento(String titulo, String descricao, String local, String data) throws RemoteException;
 
-    public void ListarEventosAdmin(String mail) throws RemoteException;
+    public Vector ListarEventosAdmin(String mail) throws RemoteException;
 
     public boolean Detalhes_ListaEventos(String titulo) throws RemoteException; //se nao encontra evento retorna false
 
@@ -41,5 +42,5 @@ public interface goOutServerInterface extends Remote {
     public boolean ListarEventoInscrito(int telemovel) throws RemoteException; //se nao encontra eventos retorna false
 
     public void FecharAplicacao() throws RemoteException;
-    public ArrayList<Event>lista(String email) throws RemoteException;
+   
 }
