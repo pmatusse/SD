@@ -2,12 +2,14 @@ package Admin;
 
 
 import Interfaces.goOutServerInterface;
+import Model.Event;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import sun.util.calendar.BaseCalendar.Date;
@@ -144,10 +146,13 @@ public class GoOutAdmin {
                     }
                     break;
                 case 3:
-                    System.out.println("listar Eventos");
-                    admin.lista(admin.getAdminactivo());
-                        //menuAdministrado();
+                    Vector t=admin.ListarEventosAdmin(admin.getAdminactivo());
+                    for(int i=0; i<(int)t.size();i++){
+                        Event evento = (Event)t.get(i);
+                        System.out.println(evento);
+                    }
                     
+                    menuAdministrado();
                     break;
 
                 case 4:
