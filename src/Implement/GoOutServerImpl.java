@@ -7,6 +7,7 @@ import Model.Tabelas;
 import java.util.ArrayList;
 import sun.util.calendar.BaseCalendar.Date;
 import Model.*;
+import java.util.Vector;
 
 public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerInterface {
 
@@ -26,22 +27,29 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
         return false;
     }
 
-    @Override
-    public void ListarEventosAdmin(String mail) throws RemoteException {
+ 
+    public Vector ListarEventosAdmin(String mail) throws RemoteException {
+        Vector tEventos = new Vector();
         for (Event evento : tabelas.Events) {
             if (evento.getMailCriador().equalsIgnoreCase(mail)) {
                 //evento localizado , sera impresso
-                System.out.println(evento);
-                
+                    tEventos.add(evento);
             }
         }
+        return tEventos;
         
-
     }
 
     @Override
-    public boolean Detalhes_ListaEventos(String titulo) throws RemoteException {
-        return false;
+    public Vector DetalhesEvento(String titulo) throws RemoteException {
+        Vector tEventos = new Vector();
+        for (Event evento : tabelas.Events) {
+            if (evento.getMailCriador().equalsIgnoreCase(titulo)) {
+                //evento localizado , sera impresso
+                    tEventos.add(evento);
+            }
+        }
+        return tEventos;
     }
 
     @Override
@@ -108,25 +116,4 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
       adminActivo=adminemail;
     }
 
-    @Override
-    public ArrayList<Event>lista(String email) throws RemoteException {
-    
-         
-              System.out.println("dados"+tabelas.Events.toString());
-//           
-      return tabelas.Events;
-        
-//         for(Event evento :tabelas.Events){
-//          
-//             if(evento.getMailCriador().equalsIgnoreCase(adminActivo)){
-//        
-//                System.out.println(evento.toString());
-//                 return tabelas.Events;
-//                  // System.out.println(evento.toString());
-//   
-//             }
-//             }
-//         
-//         return null;
-    }
 }
