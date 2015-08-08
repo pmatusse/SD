@@ -88,9 +88,8 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     @Override
     public boolean AutenticarAdmin(String mail) throws RemoteException {
-        String emailDefinido = "paulo.matusse@ine.gov.mz";
-
-        if (mail.equalsIgnoreCase(emailDefinido)) {
+       
+        if (mail.equalsIgnoreCase(mail)) {
             return true;
         }
 
