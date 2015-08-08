@@ -11,6 +11,11 @@ import java.util.Vector;
 
 public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerInterface {
 
+    //tratamento da conexao tcp
+    
+    
+    
+    
     Tabelas tabelas = new Tabelas();
     public String adminActivo; //armazena o e-mail do admin que esta activo no momento
     //constructor
@@ -44,7 +49,7 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
     public Vector DetalhesEvento(String titulo) throws RemoteException {
         Vector tEventos = new Vector();
         for (Event evento : tabelas.Events) {
-            if (evento.getMailCriador().equalsIgnoreCase(titulo)) {
+            if (evento.getTitulo().equalsIgnoreCase(titulo)) {
                 //evento localizado , sera impresso
                     tEventos.add(evento);
             }
