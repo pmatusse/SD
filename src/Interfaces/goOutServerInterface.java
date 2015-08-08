@@ -20,7 +20,7 @@ public interface goOutServerInterface extends Remote {
 
     public Vector DetalhesEvento(String titulo) throws RemoteException; //se nao encontra evento retorna false
 
-    public void removerEvento(String titulo) throws RemoteException; //se nao encontra evento retorna false
+    public boolean removerEvento(String titulo) throws RemoteException; //se nao encontra evento retorna false
 
     //Assinaturas para User
     public boolean RegistrarUser(String mail, String psw, String nome, int telemovel) throws RemoteException;
