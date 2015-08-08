@@ -54,10 +54,22 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     @Override
     public void removerEvento(String titulo) throws RemoteException {
+        for (Event evento : tabelas.Events) {
+            if (evento.getTitulo().equalsIgnoreCase(titulo)) {
+                //evento localizado , removido
+                tabelas.Events.remove(evento);
+            }
+        }
+        
     }
 
     @Override
     public boolean RegistrarUser(String mail, String psw, String nome, int telemovel) throws RemoteException {
+        
+        
+        
+        
+        
         return false;
     }
 
