@@ -96,4 +96,38 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
         return false;
     }
+
+    @Override
+    public String getAdminactivo() throws RemoteException {
+       
+        System.out.println("adminiActivo"+adminActivo);
+      return adminActivo;
+    }
+
+    @Override
+    public void setAdminactivo(String adminemail) throws RemoteException {
+      adminActivo=adminemail;
+    }
+
+    @Override
+    public ArrayList<Event>lista(String email) throws RemoteException {
+    
+         
+              System.out.println("dados"+tabelas.Events.toString());
+//           
+      return tabelas.Events;
+        
+//         for(Event evento :tabelas.Events){
+//          
+//             if(evento.getMailCriador().equalsIgnoreCase(adminActivo)){
+//        
+//                System.out.println(evento.toString());
+//                 return tabelas.Events;
+//                  // System.out.println(evento.toString());
+//   
+//             }
+//             }
+//         
+//         return null;
+    }
 }
