@@ -7,6 +7,7 @@ import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import Utilizadores.*;
 
 
 public class goOutServer {
@@ -18,25 +19,26 @@ public class goOutServer {
         ServerSocket server = null;
         try {
             
+            //tratar rmi
             Registry reg = LocateRegistry.createRegistry(1099);
             GoOutServerImpl _goOutServer = new GoOutServerImpl();
             reg.rebind("goOutServer", _goOutServer);
-            System.out.println("Servidor a escuta...");
+            System.out.println("Servidor Com implementacao RMI a escuta...");
+            //fim rmi
             
             
             
             
             //tratar tcp
-            server = new ServerSocket(1111);
-            System.out.println("Server is now runnign at  port 1111");
+            server = new ServerSocket(2015);
+            System.out.println("Servidor com implementacao TCP a escuta no porto 2015");
             
             while (true) {
 			try {
-				Socket clientSocket = server.accept();
-		/*		Client client = new Client(clientSocket);
-
+				Socket GoOutUserSocket = server.accept();
+				GoOutUser client = new GoOutUser(GoOutUserSocket);
 				Thread clientThread = new Thread(client);
-				clientThread.start();*/
+				clientThread.start();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
