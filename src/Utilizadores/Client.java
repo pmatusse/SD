@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class GoOutUser implements Runnable {
+public class Client implements Runnable {
 	private Socket clientSocket;
         
 	private static Object mutex = new Object();
@@ -12,7 +12,7 @@ public class GoOutUser implements Runnable {
 
 	// //////////////////////////////////////////////////
 
-	public GoOutUser(Socket clientSocket, ArrayList<Socket> socketsClients) {
+	public Client(Socket clientSocket, ArrayList<Socket> socketsClients) {
 		this.clientSocket = clientSocket;
 	}
 

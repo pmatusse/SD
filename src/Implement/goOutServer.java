@@ -39,7 +39,7 @@ public class goOutServer {
 			try {
 				Socket GoOutUserSocket = server.accept();
                                 socketsClients.add(GoOutUserSocket);
-				GoOutUser client = new GoOutUser(GoOutUserSocket, socketsClients);
+				Client client = new Client(GoOutUserSocket, socketsClients);
 				Thread clientThread = new Thread(client);
 				clientThread.start();
 			} catch (Exception e) {
