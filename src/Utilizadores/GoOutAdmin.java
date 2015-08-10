@@ -182,8 +182,6 @@ public class GoOutAdmin {
             System.out.println("Ocorreu  um erro \n exception: " + e.getMessage());
         }
     }
-
-    
     
     
     public boolean validEmail(String email) {

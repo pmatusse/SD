@@ -46,6 +46,11 @@ public class User implements Serializable{
     public void setTelemovel(int telemovel) {
         this.telemovel = telemovel;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "email=" + email + ", password=" + password + ", nome=" + nome + ", telemovel=" + telemovel + '}';
+    }
     
     
     
