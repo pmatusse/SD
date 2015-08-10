@@ -21,6 +21,10 @@ public class Event implements Serializable{
         this.mailCriador = criador;
     }
 
+    public Event() {
+        
+    }
+
     public String getMailCriador() {
         return mailCriador;
     }
@@ -72,10 +76,19 @@ public class Event implements Serializable{
         this.tipo = tipo;
     }
 
+    
+    public String Detalhes() {
+        return "Event{" + "titulo=" + titulo + ", descricao=" + descricao + ", local=" + local + ", tipo=" + tipo + ", mailCriador=" + mailCriador + ", data=" + data + '}';
+    }
+    
     @Override
     public String toString() {
         return "Titulo:" + titulo + "| Local: " + local + "| data: " + data+"\n\n";
     }
+
+    
+    
+    
     
     
  

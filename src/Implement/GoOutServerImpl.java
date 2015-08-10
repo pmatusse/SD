@@ -24,10 +24,7 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     //constructor
     GoOutServerImpl() throws RemoteException {
-        if (tcp == true) {
-
-
-        }
+      
     }
 
     @Override
@@ -52,15 +49,15 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
     }
 
     @Override
-    public Vector DetalhesEvento(String titulo) throws RemoteException {
-        Vector tEventos = new Vector();
+    public Event DetalhesEvento(String titulo) throws RemoteException {
+        
         for (Event evento : tabelas.Events) {
             if (evento.getTitulo().equalsIgnoreCase(titulo)) {
                 //evento localizado , sera impresso
-                tEventos.add(evento);
+                return evento;
             }
         }
-        return tEventos;
+        return new Event();
     }
 
     @Override
@@ -80,12 +77,16 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     @Override
     public boolean RegistrarUser(String mail, String psw, String nome, int telemovel) throws RemoteException {
-
-        return false;
+        tabelas.Users.add(new User(mail, psw, nome, telemovel));
+        return true;
     }
 
     @Override
     public boolean AutenticarUser(String mail, String psw) throws RemoteException {
+        for(User user: tabelas.Users){
+            if(user.getEmail().equalsIgnoreCase(mail))
+                return true;
+        }
         return false;
     }
 

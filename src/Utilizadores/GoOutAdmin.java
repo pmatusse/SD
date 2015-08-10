@@ -1,7 +1,7 @@
 package Utilizadores;
 
 import Interfaces.goOutServerInterface;
-import Model.Event;
+import Model.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.RemoteException;
@@ -30,27 +30,13 @@ public class GoOutAdmin {
     public static void menuPrincipal() {
         int opcao = 0;
         System.out.println("****BEM VINDO A GOOUT EVENT****");
-        System.out.println("********1 --> login************");
-        System.out.println("********2 --> sair*************");
-        System.out.println("********GOOUT EVENT************");
+        System.out.println("********1 --> Autenticar Admin************");
+        System.out.println("********2 --> Autenticar User************");
+        System.out.println("********3 --> Sair*************");
+        System.out.println("*******************************");
 
         opcao = scan.nextInt();
         operacoes1(opcao);
-    }
-    /*menu das operacoes de administrador*/
-
-    public static void menuAdministrado() throws RemoteException {
-        int opcao = 0;
-        System.out.println("\n");
-        System.out.println("1 --> Adicionar user's");
-        System.out.println("2 --> Adicionar evento");
-        System.out.println("3 --> Listar Eventos por administradores");
-        System.out.println("4 --> Ver Detalhes de evento");
-        System.out.println("5 --> Remover evento");
-        System.out.println("6 --> Menu Principal");
-        System.out.println("7 --> Sair");
-        opcao = scan.nextInt();
-        operacoesaAdministrador(opcao);
     }
 
     public static void operacoes1(int operacao) {
@@ -71,12 +57,15 @@ public class GoOutAdmin {
                         admin.setAdminactivo(email);
                         menuAdministrado();
 
-                    }else{
+                    } else {
                         System.out.println("O usuario nao existe");
                     }
                     menuPrincipal();
                     break;
                 case 2:
+                    
+                
+                case 3:
                     System.out.println("GOODBYE VOLTE SEMPRE");
                     System.exit(0);
                     break;
@@ -90,6 +79,21 @@ public class GoOutAdmin {
         }
         //invoca o menu
         menuPrincipal();
+    }
+
+    /*menu das operacoes de administrador*/
+    public static void menuAdministrado() throws RemoteException {
+        int opcao = 0;
+        System.out.println("\n");
+        System.out.println("1 --> Adicionar user's");
+        System.out.println("2 --> Adicionar evento");
+        System.out.println("3 --> Listar Eventos por administradores");
+        System.out.println("4 --> Ver Detalhes de evento");
+        System.out.println("5 --> Remover evento");
+        System.out.println("6 --> Menu Principal");
+        System.out.println("7 --> Sair");
+        opcao = scan.nextInt();
+        operacoesaAdministrador(opcao);
     }
 
     public static void operacoesaAdministrador(int op) throws RemoteException {
@@ -134,9 +138,9 @@ public class GoOutAdmin {
                     if (admin.addEvento(titulo, descricao, local, data)) {
                         System.out.println("Registado novo Evento:\t Evento:" + titulo);
                         menuAdministrado();
-                    } else{
-                     System.out.println("O evento nao foi addicionado");
-                         menuAdministrado();
+                    } else {
+                        System.out.println("O evento nao foi addicionado");
+                        menuAdministrado();
                     }
                     break;
                 case 3:
@@ -150,29 +154,24 @@ public class GoOutAdmin {
                     break;
 
                 case 4:
-
+                    //listar detalhes de evento
                     System.out.println("Introduza o titulo do evento :\n");
                     titulo = scan.next();
-                    Vector a = admin.DetalhesEvento(titulo);
-                    for (int i = 0; i < (int) a.size(); i++) {
-                        Event evento = (Event) a.get(i);
-                        System.out.println(evento);
+                    Event evento = admin.DetalhesEvento(titulo);
+                    System.out.println(evento.Detalhes());
 
-                        menuAdministrado();
-                    }
                     break;
 
                 case 5:
 
                     System.out.println("Introduza o titulo do evento :\n");
                     titulo = scan.next();
-                    if(admin.removerEvento(titulo)==true)
-                    {
-                     System.out.println("evento removido com sucesso");
-                      menuAdministrado();
-                    }else{
-                     System.out.println("Evento nao removido");
-                    menuAdministrado();
+                    if (admin.removerEvento(titulo) == true) {
+                        System.out.println("evento removido com sucesso");
+                        menuAdministrado();
+                    } else {
+                        System.out.println("Evento nao removido");
+                        menuAdministrado();
                     }
                     break;
                 default:
@@ -184,6 +183,9 @@ public class GoOutAdmin {
         }
     }
 
+    
+    
+    
     public boolean validEmail(String email) {
         //System.out.println("Metodo de validacao de email");
         Pattern p = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$");

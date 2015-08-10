@@ -6,6 +6,6 @@ import java.util.ArrayList;
 
 
 public class Tabelas implements Serializable{
-    public ArrayList<User> Users = new ArrayList<User>();
-    public ArrayList<Event> Events = new ArrayList<Event>(); 
+    public static ArrayList<User> Users = new ArrayList<User>();
+    public static ArrayList<Event> Events = new ArrayList<Event>(); 
 }

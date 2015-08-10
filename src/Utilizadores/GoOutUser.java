@@ -2,16 +2,17 @@ package Utilizadores;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class GoOutUser implements Runnable {
 	private Socket clientSocket;
-
+        
 	private static Object mutex = new Object();
 	private static int numberOfClients;
 
 	// //////////////////////////////////////////////////
 
-	public GoOutUser(Socket clientSocket) {
+	public GoOutUser(Socket clientSocket, ArrayList<Socket> socketsClients) {
 		this.clientSocket = clientSocket;
 	}
 
@@ -24,17 +25,26 @@ public class GoOutUser implements Runnable {
 
 			synchronized (mutex) {
 				++numberOfClients;
-				System.out.println("There are " + numberOfClients + " running!");
+				System.out.println("Cliente " + numberOfClients + " Activo!");
 			}
 
-			String line = "";
-			while (!line.equals("QUIT")) {
-				line = in.readLine();
-				System.out.println("Client " + clientSocket + " said: \n   " + line);
+			int op;
+			do{
+                            
+                            out.println("1 --> Registar user's");
+                            out.println("2 --> Login");
+                            out.println("3 --> Listar Eventos");
+                            out.println("4 --> Ver Detalhes de evento");
+                            out.println("5 --> Inscrever-se num evento");
+                            out.println("6 --> Pesquisar e listar");
+                            out.println("6 --> Listar eventos por Utilizador");
+                            out.println("7 --> Sair"); 
+                            op = Integer.parseInt(in.readLine());
 
-				out.println("You said: " + line);
-				out.flush();
-			}
+				out.println("escolhida a opcao " + op);
+				
+                            out.flush();
+			}while(op!=0);
 
 			in.close();
 			out.close();

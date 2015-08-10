@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 import Utilizadores.*;
+import java.util.ArrayList;
 
 
 public class goOutServer {
@@ -17,6 +18,7 @@ public class goOutServer {
        /* System.getProperties().put("java.security.policy", "security.policy");
         System.setSecurityManager(new RMISecurityManager());*/
         ServerSocket server = null;
+        ArrayList<Socket> socketsClients = new ArrayList<Socket>();
         try {
             
             //tratar rmi
@@ -36,7 +38,8 @@ public class goOutServer {
             while (true) {
 			try {
 				Socket GoOutUserSocket = server.accept();
-				GoOutUser client = new GoOutUser(GoOutUserSocket);
+                                socketsClients.add(GoOutUserSocket);
+				GoOutUser client = new GoOutUser(GoOutUserSocket, socketsClients);
 				Thread clientThread = new Thread(client);
 				clientThread.start();
 			} catch (Exception e) {
