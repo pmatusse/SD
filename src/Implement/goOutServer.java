@@ -30,7 +30,7 @@ public class goOutServer extends Thread {
             Registry reg = LocateRegistry.createRegistry(1099);
             GoOutServerImpl _goOutServer = new GoOutServerImpl();
             reg.rebind("goOutServer", _goOutServer);
-            System.out.println("SERVIDOR --> Escuta RMI.....\t\t[OK]");
+            System.out.println("SERVIDOR --> Escuta RMI.....\t\t\t[OK]");
             //fim rmi
         } catch (Exception e) {
             e.printStackTrace();
