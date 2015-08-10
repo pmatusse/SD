@@ -41,9 +41,9 @@ public class Servidorthread extends Thread {
 
         int operacao;//variavel que recebe o numero da operacao
         Object objecto;// variavel que recebe o objecto a ser tratado na operacao seleccionada
-        boolean controler =true;
+        
         try {
-        while(controler){
+        while(true){
             operacao = (Integer) serverInputStream.readObject();
             objecto = serverInputStream.readObject();
 
@@ -70,9 +70,7 @@ public class Servidorthread extends Thread {
                 case 6:
                     System.out.println("Pesquisar e listar");
                     break;
-                case 0:
-                    controler=false;
-                    break;
+
                 default:
 
                     break;
@@ -84,7 +82,7 @@ public class Servidorthread extends Thread {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Servidorthread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        desconnectar();
+       // desconnectar();
     }
 
 }
