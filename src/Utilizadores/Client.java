@@ -1,90 +1,69 @@
 package Utilizadores;
 
-import Model.*;
 import java.io.*;
-import java.net.Socket;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.JOptionPane;
+import java.net.*;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
-class Client {
+public class Client implements Runnable {
+	private Socket clientSocket;
+	private static Object mutex = new Object();
+	private static int numberOfClients;
+        private Vector<Socket> clientes  = new Vector(); //vector que guarda cada conexao criada
+        String comando, nome,linha1;
+       
 
-    protected Socket sk;
-    int operacao;
-ObjectOutputStream cos;
-ObjectInputStream cis;
-    public Client() {
+	// //////////////////////////////////////////////////
 
-    }
+	public Client(Socket clientSocket) {
+		this.clientSocket = clientSocket;
+                this.clientes  = clientes ;
+	}
 
-    public void run() throws Exception {
-        System.out.println("inicio do run");
-        try {
-            sk = new Socket("127.0.0.1", 2015);
+	// //////////////////////////////////////////////////
 
-            //manipuladores de input output
-            menu();
- 
-            cos.close();
-            cis.close();
-            sk.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	public void run() {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
 
-    }
+			synchronized (mutex) {
+				++numberOfClients;
+				System.out.println("Cliente N. " + numberOfClients + " Activo!");
+			}
 
-    public void menu() throws IOException, ClassNotFoundException {
-        cos = new ObjectOutputStream(sk.getOutputStream());
-        cis = new ObjectInputStream(sk.getInputStream());
-        do {
+			String line = "";
+			while (!line.equals("0")) {
+				line = in.readLine();
+                                
+				System.out.println("Client " + clientSocket + " said: \n   " + line);
+                                
+                                
+                                if(line.equalsIgnoreCase("1")){
+                                    out.print("registar");
+                                    
+                                }
+                                else if(line.equalsIgnoreCase("2")){
+                                   out.print("Login");
+                                }
+                                else if(line.startsWith("3")){
+                                    out.print("listar");
+                                }
+                                else{
+                                out.print("Mensagem nao enviada");
+                                
+                                }
+                                
+				out.println("Voce Disse: " + line);
+				out.flush();
+			}
 
-            operacao = Integer.parseInt(JOptionPane.showInputDialog(
-                    "1 --> Registar user's\n"
-                    + "2 --> Login\n"
-                    + "3 --> Listar Eventos\n"
-                    + "4 --> Ver Detalhes de evento\n"
-                    + "5 --> Inscrever-se num evento\n"
-                    + "6 --> Pesquisar e listar\n"
-                    + "6 --> Listar eventos por Utilizador\n"
-                    + "7 --> Sair\n"
-            ));
-
-            switch (operacao) {
-                case 1:
-                    cos.writeObject(operacao);
-                    cos.writeObject(new Event("desafio Total", "Eu consegui", "em casa", "24/09/25", "paulo"));
-
-                    JOptionPane.showMessageDialog(null, (Event) cis.readObject());
-                    
-                    break;
-                case 2:
-
-                    System.out.println("Login");
-
-                case 3:
-                    System.out.println("Listar Eventos");
-                    break;
-                case 4:
-                    System.out.println("Ver Detalhes de evento");
-                    break;
-                case 5:
-                    System.out.println("Inscrever-se num evento");
-
-                case 6:
-                    System.out.println("Pesquisar e listar");
-                    break;
-                case 7:
-                    System.out.println("Sair");
-                    break;
-                default:
-                    System.out.println("Operacao Invalida");
-
-                    break;
-            }
-
-        } while (operacao == 0);
-
-    }
-
+			in.close();
+			out.close();
+			clientSocket.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+      
 }
