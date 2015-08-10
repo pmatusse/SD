@@ -18,13 +18,13 @@ public class Client implements Runnable {
     ObjectOutputStream cos;
     ObjectInputStream cis;
 
-	// //////////////////////////////////////////////////
+    // //////////////////////////////////////////////////
     public Client(Socket clientSocket) {
         this.clientSocket = clientSocket;
-    
+
     }
 
-	// //////////////////////////////////////////////////
+    // //////////////////////////////////////////////////
     public void run() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -36,43 +36,56 @@ public class Client implements Runnable {
             }
 
             operacao = "";
-            out.println("1 --> Registar user's");
-            out.println("2 --> Login");
-            out.println("3 --> Listar Eventos");
-            out.println("4 --> Ver Detalhes de evento");
-            out.println("5 --> Inscrever-se num evento");
-            out.println("6 --> Pesquisar e listar");
-            out.println("6 --> Listar eventos por Utilizador");
-            out.println("7 --> Sair");
-            out.flush();    
+            menuReestrito(out);
             
+
             while (!operacao.equals("0")) {
                 operacao = in.readLine();
 
                 System.out.println("Client " + clientSocket + " said: \n   " + operacao);
 
                 if (operacao.equalsIgnoreCase("1")) {
-                    out.println("Digite seu Email");out.flush(); 
-                    String email =in.readLine();
-                    out.println("Digite sua Password");out.flush(); 
-                    String password =in.readLine();
-                    out.println("Digite seu nome");out.flush(); 
-                    String nome =in.readLine();
-                    out.println("Digite Numero de telefone");out.flush(); 
-                    String _telefone =in.readLine();
+                    out.println("Digite seu Email");
+                    out.flush();
+                    String email = in.readLine();
+                    out.println("Digite sua Password");
+                    out.flush();
+                    String password = in.readLine();
+                    out.println("Digite seu nome");
+                    out.flush();
+                    String nome = in.readLine();
+                    out.println("Digite Numero de telefone");
+                    out.flush();
+                    String _telefone = in.readLine();
                     int telefone = Integer.parseInt(_telefone);
-                    if(tabelas.Users.add(new User(email, password, nome, telefone))){
+                    if (tabelas.Users.add(new User(email, password, nome, telefone))) {
                         out.print("Utilizador registrado com sucesso");
-                        out.flush(); 
-                    }
-                    else{
+                        out.flush();
+                    } else {
                         out.print("Utilizador nao registrado! ocorreu um erro");
-                        out.flush(); 
+                        out.flush();
                     }
 
+                    //Autenticar   
                 } else if (operacao.equalsIgnoreCase("2")) {
+                    out.println("Digite seu Email");
+                    out.flush();
+                    String email = in.readLine();
+                    out.println("Digite sua Password");
+                    out.flush();
+                    String password = in.readLine();
+
+                    for (User user : tabelas.Users) {
+                        if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
+                            menu(out);
+                        }
+                    }
+
                     out.print("Login");
                 } else if (operacao.startsWith("3")) {
+                     for (User user : tabelas.Users) {
+                       out.println(user);
+                    }
                     out.print("listar");
                 } else {
                     out.print("Mensagem nao enviada");
@@ -89,6 +102,23 @@ public class Client implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void menuReestrito(PrintWriter out) {
+        out.println("1 --> Registar user's");
+        out.println("2 --> Login");
+        out.println("0 --> Sair");
+        out.flush();
+    }
+
+    private void menu(PrintWriter out) {
+        out.println("3 --> Listar Eventos");
+        out.println("4 --> Ver Detalhes de evento");
+        out.println("5 --> Inscrever-se num evento");
+        out.println("6 --> Pesquisar e listar");
+        out.println("6 --> Listar eventos por Utilizador");
+        out.println("0 --> Sair");
+        out.flush();
     }
 
 }
