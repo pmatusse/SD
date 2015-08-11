@@ -5,7 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Interfaces.goOutServerInterface;
 import Model.Tabelas;
 import java.util.ArrayList;
-import sun.util.calendar.BaseCalendar.Date;
+import java.util.Date;
 import Model.*;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,7 +28,7 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
     }
 
     @Override
-    public boolean addEvento(String titulo, String descricao, String local, String data) throws RemoteException {
+    public boolean addEvento(String titulo, String descricao, String local, Date data) throws RemoteException {
         if (tabelas.Events.add(new Event(titulo, descricao, local, data, adminActivo))) {
             return true;
         }

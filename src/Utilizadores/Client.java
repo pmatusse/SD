@@ -36,7 +36,8 @@ public class Client implements Runnable {
             }
 
             operacao = "";
-            menuReestrito(out);
+            //menuReestrito(out);
+            menu(out);
 
             while (!operacao.equals("0")) {
                 operacao = in.readLine();
@@ -76,7 +77,7 @@ public class Client implements Runnable {
                     String password = in.readLine();
                     boolean login =false;
                     for (User user : tabelas.Users) {
-                        if (user.getEmail().equalsIgnoreCase(email)) {
+                        if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
                             menu(out);
                             login=true;
                         }
@@ -89,12 +90,15 @@ public class Client implements Runnable {
                     }
 
                     
-                } else if (operacao.startsWith("3")) {
-                    for (User user : tabelas.Users) {
-                        out.println(user);
-                    }
-                    out.print("listar");
-                } else {
+                } 
+                else if (operacao.equalsIgnoreCase("3")) {
+                    out.println("Digite seu Email");
+                    out.println("obrigado");
+                    out.flush();
+                    menu(out);
+                }
+                
+                else {
                     out.print("Mensagem nao enviada");
 
                 }

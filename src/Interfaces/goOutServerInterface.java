@@ -5,7 +5,7 @@ import Model.Event;
 import java.rmi.*;
 import java.util.ArrayList;
 import java.util.Vector;
-import sun.util.calendar.BaseCalendar.Date;
+import java.util.Date;
 
 public interface goOutServerInterface extends Remote {
 
@@ -14,7 +14,7 @@ public interface goOutServerInterface extends Remote {
     //public boolean  RegistrarAdmin(String mail) throws RemoteException;
     public boolean AutenticarAdmin(String mail) throws RemoteException;
 
-    public boolean addEvento(String titulo, String descricao, String local, String data) throws RemoteException;
+    public boolean addEvento(String titulo, String descricao, String local, Date data) throws RemoteException;
 
     public Vector ListarEventosAdmin(String mail) throws RemoteException;
 

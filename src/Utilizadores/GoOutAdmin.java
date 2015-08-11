@@ -2,16 +2,17 @@ package Utilizadores;
 
 import Interfaces.goOutServerInterface;
 import Model.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import sun.util.calendar.BaseCalendar.Date;
+import java.util.Date;
 
 public class GoOutAdmin {
 
@@ -21,6 +22,7 @@ public class GoOutAdmin {
     private static String email, password, nome;
     private static int telemovel;
     private static String titulo, descricao, local, data, mailCriador;
+    static DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
     public static void main(String[] args) throws RemoteException {
         menuPrincipal();
@@ -63,8 +65,7 @@ public class GoOutAdmin {
                     menuPrincipal();
                     break;
                 case 2:
-                    
-                
+
                 case 3:
                     System.out.println("GOODBYE VOLTE SEMPRE");
                     System.exit(0);
@@ -85,7 +86,7 @@ public class GoOutAdmin {
     public static void menuAdministrado() throws RemoteException {
         int opcao = 0;
         System.out.println("\n");
-        System.out.println("1 --> Adicionar user's");
+        //System.out.println("1 --> Adicionar user's");
         System.out.println("2 --> Adicionar evento");
         System.out.println("3 --> Listar Eventos por administradores");
         System.out.println("4 --> Ver Detalhes de evento");
@@ -133,9 +134,10 @@ public class GoOutAdmin {
                     System.out.println("Introduza o local: \n");
                     local = scan.next();
 
-                    System.out.println("Introduza a data:\n");
+                    System.out.println("Introduza a data:\n"); // 01/08/2017
                     data = scan.next();
-                    if (admin.addEvento(titulo, descricao, local, data)) {
+                    
+                    if (admin.addEvento(titulo, descricao, local, df.parse(data))) {
                         System.out.println("Registado novo Evento:\t Evento:" + titulo);
                         menuAdministrado();
                     } else {
@@ -182,9 +184,8 @@ public class GoOutAdmin {
             System.out.println("Ocorreu  um erro \n exception: " + e.getMessage());
         }
     }
-    
-    
-    public boolean validEmail(String email) {
+
+    static public boolean validEmail(String email) {
         //System.out.println("Metodo de validacao de email");
         Pattern p = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$");
         Matcher m = p.matcher(email);
@@ -195,5 +196,19 @@ public class GoOutAdmin {
             System.out.println("O E-mail " + email + " é inválido");
             return false;
         }
+    }
+
+    public Date convertData(String data) {
+        java.util.Date dataNova = null;
+
+        java.util.Date startDate;
+        try {
+            dataNova = df.parse(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dataNova;
+
     }
 }
