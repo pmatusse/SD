@@ -9,6 +9,7 @@
 package Utilizadores;
 
 import Model.Event;
+import Model.Registration;
 
 import Model.Tabelas;
 import Model.User;
@@ -23,6 +24,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GoOutUser
         implements Runnable {
@@ -32,8 +34,7 @@ public class GoOutUser
     private static int numberOfClients;
     String operacao;
     Tabelas tabelas = new Tabelas();
-    ObjectOutputStream cos;
-    ObjectInputStream cis;
+    User user;//serve para identificar unicamente o utilizador activo
 
     public GoOutUser(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -79,7 +80,7 @@ public class GoOutUser
                     }
                     out.print("Utilizador nao registrado! ocorreu um erro");
                     out.flush();
-                    
+
                     continue;
                 }
 //LOGIN  ############################################################                
@@ -93,6 +94,8 @@ public class GoOutUser
                     boolean login = false;
                     for (User user : Tabelas.Users) {
                         if (!user.getEmail().equalsIgnoreCase(email) || !user.getPassword().equals(password)) {
+                            this.user = user;
+                            menu(out);
                             continue;
                         }
                         this.menu(out);
@@ -139,7 +142,7 @@ public class GoOutUser
                     out.flush();
                     out.println("DETALHES DE EVENTO");
                     out.flush();
-                    boolean controler =false;
+                    boolean controler = false;
                     if (Tabelas.Events.size() > 0) {
 
                         for (Event evento : Tabelas.Events) {
@@ -150,11 +153,24 @@ public class GoOutUser
                                 out.println("TIPO:\t" + evento.getTipo());
                                 out.println("CRIADOR:\t" + evento.getMailCriador());
                                 out.flush();
-                                controler=true;
+
+                                out.println("REGISTADOS");
+                                if (evento.getRegistrations().size() > 0) {
+                                    out.println("Numero de registados:\t" + evento.getRegistrations().size());
+                                    out.flush();
+                                    /*for (Registration reg : evento.getRegistrations()) {
+                                        out.println("\t" + reg.getUser().getNome());
+                                        out.flush();
+                                    }*/
+                                } else {
+                                    out.println("Nenhum registro de participantes ...");
+                                    out.flush();
+                                }
+                                controler = true;
                             }
                         }
-                        
-                        if(!controler){
+
+                        if (!controler) {
                             out.println("O evento pesquisado Nao consta no sitema, reveja a lista de eventos");
                             out.flush();
                         }
@@ -169,9 +185,42 @@ public class GoOutUser
                     this.menu(out);
                     continue;
                 }
+//INSCREVRE_SE em EVENTO############################################################                 
+                if (this.operacao.equals("5")) {
+                    System.out.println("ha " + Tabelas.Events.size() + "eventos");
+                    out.println("Digite o titulo do evento");
+                    out.flush();
+                    String titulo = in.readLine();
+                    boolean controler = false;
+                    if (Tabelas.Events.size() > 0) {
+                        for (Event evento : Tabelas.Events) {
+                            if (evento.getTitulo().equalsIgnoreCase(titulo)) {
+                                evento.getRegistrations().add(
+                                        new Registration(titulo, user, new Date())
+                                );
+                                controler = true;
+                            }
+                        }
+
+                        if (!controler) {
+                            out.println("erro durante o registro, reveja a lista de eventos");
+                            out.flush();
+                        }
+
+                    } else {
+                        out.println("Nao ha eventos registrados no sistema, tente mais tarde");
+                        out.flush();
+                    }
+                    out.println("pressione qualquer ENTER para voltar ao menu...");
+                    out.flush();
+                    in.readLine();
+                    this.menu(out);
+                    continue;
+                }
+
                 out.print("Mensagem nao enviada");
             }
-            
+
             in.close();
             out.close();
             this.clientSocket.close();

@@ -5,12 +5,12 @@ import java.util.Date;
 
 public class Registration implements Serializable{
     String Evento;
-    int User_telefone;
+    User user;
     Date dataRegistro;
-
-    public Registration(String Evento, int User_telefone, Date dataRegistro) {
+    
+     public Registration(String Evento, User user, Date dataRegistro) {
         this.Evento = Evento;
-        this.User_telefone = User_telefone;
+        this.user = user;
         this.dataRegistro = dataRegistro;
     }
 
@@ -22,12 +22,12 @@ public class Registration implements Serializable{
         this.Evento = Evento;
     }
 
-    public int getUser_telefone() {
-        return User_telefone;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_telefone(int User_telefone) {
-        this.User_telefone = User_telefone;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getDataRegistro() {
@@ -37,6 +37,9 @@ public class Registration implements Serializable{
     public void setDataRegistro(Date dataRegistro) {
         this.dataRegistro = dataRegistro;
     }
-    
+
+   
+
+   
     
 }

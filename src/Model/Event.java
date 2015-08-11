@@ -33,6 +33,30 @@ public class Event implements Serializable {
         this.mailCriador = mailCriador;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public ArrayList<Registration> getRegistrations() {
+        return Registrations;
+    }
+
+    public void setRegistrations(ArrayList<Registration> Registrations) {
+        this.Registrations = Registrations;
+    }
+
+    public static DateFormat getDf() {
+        return df;
+    }
+
+    public static void setDf(DateFormat df) {
+        Event.df = df;
+    }
+
     public String[] getListaInscritos() {
         return ListaInscritos;
     }
