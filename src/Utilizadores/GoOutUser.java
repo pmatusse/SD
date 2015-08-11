@@ -9,6 +9,7 @@
 package Utilizadores;
 
 import Model.Event;
+
 import Model.Tabelas;
 import Model.User;
 import java.io.BufferedReader;
@@ -24,7 +25,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class GoOutUser
-implements Runnable {
+        implements Runnable {
+
     private Socket clientSocket;
     private static Object mutex = new Object();
     private static int numberOfClients;
@@ -53,6 +55,8 @@ implements Runnable {
                 String email;
                 this.operacao = in.readLine();
                 System.out.println("Client " + this.clientSocket + " said: \n   " + this.operacao);
+
+//REGISTAR USER  ############################################################ 
                 if (this.operacao.equals("1")) {
                     out.println("Digite seu Email");
                     out.flush();
@@ -75,8 +79,10 @@ implements Runnable {
                     }
                     out.print("Utilizador nao registrado! ocorreu um erro");
                     out.flush();
+                    
                     continue;
                 }
+//LOGIN  ############################################################                
                 if (this.operacao.equals("2")) {
                     out.println("Digite seu Email");
                     out.flush();
@@ -86,16 +92,22 @@ implements Runnable {
                     password = in.readLine();
                     boolean login = false;
                     for (User user : Tabelas.Users) {
-                        if (!user.getEmail().equalsIgnoreCase(email) || !user.getPassword().equals(password)) continue;
+                        if (!user.getEmail().equalsIgnoreCase(email) || !user.getPassword().equals(password)) {
+                            continue;
+                        }
                         this.menu(out);
                         login = true;
                     }
-                    if (login) continue;
+                    if (login) {
+                        continue;
+                    }
                     out.print("Credenciais invalidas, tente mais uma vez");
                     out.flush();
                     this.menuReestrito(out);
                     continue;
                 }
+
+//LISTAR EVENTOS ############################################################
                 if (this.operacao.equals("3")) {
                     System.out.println("ha " + Tabelas.Events.size() + "eventos");
                     out.println("\u001b[2J");
@@ -104,7 +116,7 @@ implements Runnable {
                     out.flush();
                     if (Tabelas.Events.size() > 0) {
                         for (Event evento : Tabelas.Events) {
-                            out.println(evento.getTitulo());
+                            out.println("\t" + evento.getTitulo());
                             out.flush();
                         }
                     } else {
@@ -117,48 +129,53 @@ implements Runnable {
                     this.menu(out);
                     continue;
                 }
+//VER DETALHES DE EVENTO############################################################                 
                 if (this.operacao.equals("4")) {
-                    System.out.println("dentro de " + this.operacao);
-                    out.println("Ver Detalhes de evento");
+                    System.out.println("ha " + Tabelas.Events.size() + "eventos");
+                    out.println("Digite o titulo do evento");
                     out.flush();
-                    this.menu(out);
-                    continue;
-                }
-                if (this.operacao.equals("5")) {
-                    System.out.println("dentro de " + this.operacao);
-                    out.println("Inscrever-se num evento");
+                    String titulo = in.readLine();
+                    out.println("\u001b[2J");
                     out.flush();
-                    this.menu(out);
-                    continue;
-                }
-                if (this.operacao.equals("5")) {
-                    System.out.println("dentro de " + this.operacao);
-                    out.println("Pesquisar e listar");
+                    out.println("DETALHES DE EVENTO");
                     out.flush();
-                    this.menu(out);
-                    continue;
-                }
-                if (this.operacao.equals("6")) {
-                    System.out.println("dentro de " + this.operacao);
-                    out.println("Listar eventos por Utilizador");
+                    boolean controler =false;
+                    if (Tabelas.Events.size() > 0) {
+
+                        for (Event evento : Tabelas.Events) {
+                            if (evento.getTitulo().equalsIgnoreCase(titulo)) {
+                                out.println("TITULO:\t" + evento.getTitulo());
+                                out.println("DATA:\t" + evento.getData());
+                                out.println("LOCAL:\t" + evento.getLocal());
+                                out.println("TIPO:\t" + evento.getTipo());
+                                out.println("CRIADOR:\t" + evento.getMailCriador());
+                                out.flush();
+                                controler=true;
+                            }
+                        }
+                        
+                        if(!controler){
+                            out.println("O evento pesquisado Nao consta no sitema, reveja a lista de eventos");
+                            out.flush();
+                        }
+
+                    } else {
+                        out.println("Nao ha eventos registrados no sistema, tente mais tarde");
+                        out.flush();
+                    }
+                    out.println("pressione qualquer ENTER para voltar ao menu...");
                     out.flush();
-                    this.menu(out);
-                    continue;
-                }
-                if (this.operacao.equals("7")) {
-                    System.out.println("dentro de " + this.operacao);
-                    out.println("Listar eventos por Utilizador");
-                    out.flush();
+                    in.readLine();
                     this.menu(out);
                     continue;
                 }
                 out.print("Mensagem nao enviada");
             }
+            
             in.close();
             out.close();
             this.clientSocket.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

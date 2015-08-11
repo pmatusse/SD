@@ -7,9 +7,11 @@ import Model.Tabelas;
 import java.util.ArrayList;
 import java.util.Date;
 import Model.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.Vector;
 
 public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerInterface {
@@ -24,7 +26,8 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     //constructor
     GoOutServerImpl() throws RemoteException {
-      
+        //criando directorio para persistencia
+   
     }
 
     @Override
@@ -50,7 +53,7 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
 
     @Override
     public Event DetalhesEvento(String titulo) throws RemoteException {
-        
+
         for (Event evento : tabelas.Events) {
             if (evento.getTitulo().equalsIgnoreCase(titulo)) {
                 //evento localizado , sera impresso
@@ -61,31 +64,33 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
     }
 
     @Override
-     public boolean removerEvento(String titulo) throws RemoteException {
+    public boolean removerEvento(String titulo) throws RemoteException {
         for (Event evento : tabelas.Events) {
             if (evento.getTitulo().equalsIgnoreCase(titulo)) {
                 //evento localizado , removido
                 tabelas.Events.remove(evento);
-                return  true;
-            }else{
-            return false;
+                return true;
+            } else {
+                return false;
             }
-         }
+        }
         return removerEvento(titulo);
-     
+
     }
 
     @Override
     public boolean RegistrarUser(String mail, String psw, String nome, int telemovel) throws RemoteException {
         tabelas.Users.add(new User(mail, psw, nome, telemovel));
+     
         return true;
     }
 
     @Override
     public boolean AutenticarUser(String mail, String psw) throws RemoteException {
-        for(User user: tabelas.Users){
-            if(user.getEmail().equalsIgnoreCase(mail))
+        for (User user : tabelas.Users) {
+            if (user.getEmail().equalsIgnoreCase(mail)) {
                 return true;
+            }
         }
         return false;
     }
@@ -139,10 +144,5 @@ public class GoOutServerImpl extends UnicastRemoteObject implements goOutServerI
     public void setAdminactivo(String adminemail) throws RemoteException {
         adminActivo = adminemail;
     }
-
-
-
-
-
 
 }

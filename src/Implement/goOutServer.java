@@ -1,5 +1,7 @@
 package Implement;
 
+
+import Model.Tabelas;
 import Utilizadores.GoOutUser;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +18,7 @@ public class goOutServer extends Thread {
 
     //Construtor para conexoes RMI
     goOutServer() {
-
+     
     }
 
     //construtor para conexoes tcp
