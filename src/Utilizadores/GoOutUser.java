@@ -8,7 +8,7 @@ import java.net.*;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-public class Client implements Runnable {
+public class GoOutUser implements Runnable {
 
     private Socket clientSocket;
     private static Object mutex = new Object();
@@ -19,7 +19,7 @@ public class Client implements Runnable {
     ObjectInputStream cis;
 
     // //////////////////////////////////////////////////
-    public Client(Socket clientSocket) {
+    public GoOutUser(Socket clientSocket) {
         this.clientSocket = clientSocket;
 
     }
@@ -44,7 +44,7 @@ public class Client implements Runnable {
 
                 System.out.println("Client " + clientSocket + " said: \n   " + operacao);
 
-                if (operacao.equalsIgnoreCase("1")) {
+                if (operacao.equals("1")) {
                     out.println("Digite seu Email");
                     out.flush();
                     String email = in.readLine();
@@ -68,35 +68,73 @@ public class Client implements Runnable {
                     }
 
                     //Autenticar   
-                } else if (operacao.equalsIgnoreCase("2")) {
+                } else if (operacao.equals("2")) {
                     out.println("Digite seu Email");
                     out.flush();
                     String email = in.readLine();
                     out.println("Digite sua Password");
                     out.flush();
                     String password = in.readLine();
-                    boolean login =false;
+                    boolean login = false;
                     for (User user : tabelas.Users) {
                         if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
                             menu(out);
-                            login=true;
+                            login = true;
                         }
                     }
-                    
-                    if(login==false){
+
+                    if (login == false) {
                         out.print("Credenciais invalidas, tente mais uma vez");
                         out.flush();
                         menuReestrito(out);
                     }
 
-                    
-                } 
-                else if (operacao.equalsIgnoreCase("3")) {
-                    out.println("Digite seu Email");
-                    out.println("obrigado");
+                } //LISTAR EVENTOS
+                else if (operacao.equals("3")) {
+                   System.out.println("dentro de " + operacao);
+                    out.println("Listar evento");
+                    out.flush();
+                    out.println("nome");
                     out.flush();
                     menu(out);
+
                 }
+                else if (operacao.equals("4")) {
+                    System.out.println("dentro de " + operacao);
+                    out.println("Ver Detalhes de evento");
+                    out.flush();
+                    menu(out);
+
+                }
+                else if (operacao.equals("5")) {
+                    System.out.println("dentro de " + operacao);
+                    out.println("Inscrever-se num evento");
+                    out.flush();
+                    menu(out);
+
+                }
+                 else if (operacao.equals("5")) {
+                     System.out.println("dentro de " + operacao);
+                    out.println("Pesquisar e listar");
+                    out.flush();
+                    menu(out);
+
+                }
+                 else if (operacao.equals("6")) {
+                    System.out.println("dentro de " + operacao);
+                    out.println("Listar eventos por Utilizador");
+                    out.flush();
+                    menu(out);
+
+                }
+                else if (operacao.equals("7")) {
+                    System.out.println("dentro de " + operacao);
+                    out.println("Listar eventos por Utilizador");
+                    out.flush();
+                    menu(out);
+
+                }
+                
                 
                 else {
                     out.print("Mensagem nao enviada");
@@ -104,7 +142,7 @@ public class Client implements Runnable {
                 }
 
                 //out.println("Voce Disse: " + operacao);
-                out.flush();
+                //out.flush();
             }
 
             in.close();
@@ -130,7 +168,7 @@ public class Client implements Runnable {
         out.println("4 --> Ver Detalhes de evento");
         out.println("5 --> Inscrever-se num evento");
         out.println("6 --> Pesquisar e listar");
-        out.println("6 --> Listar eventos por Utilizador");
+        out.println("7 --> Listar eventos por Utilizador");
         out.println("0 --> Sair");
         out.println("Seleccione sua opcao:");
         out.flush();

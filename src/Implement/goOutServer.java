@@ -1,6 +1,6 @@
 package Implement;
 
-import Utilizadores.Client;
+import Utilizadores.GoOutUser;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.registry.LocateRegistry;
@@ -54,7 +54,7 @@ public class goOutServer extends Thread {
         while (true) {
             try {
                 Socket clientSocket = server.accept();
-                Client client = new Client(clientSocket);
+                GoOutUser client = new GoOutUser(clientSocket);
                 Thread clientThread = new Thread(client);
                 clientThread.start();
             } catch (Exception e) {
